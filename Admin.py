@@ -1,5 +1,5 @@
 from Gestionnaire import Gestionnaire
-from Data import get_connection
+from Data import *
 
 
 class Admin(Gestionnaire):

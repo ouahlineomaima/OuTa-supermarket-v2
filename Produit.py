@@ -1,4 +1,4 @@
-from Data import get_connection, get_produit
+from Data import *
 
 
 class Produit:

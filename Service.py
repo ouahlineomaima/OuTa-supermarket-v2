@@ -1,4 +1,4 @@
-from Data import get_connection
+from Data import *
 
 
 class Service:
