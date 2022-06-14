@@ -1,6 +1,3 @@
-# test commit and push
-
-
 class Gestionnaire:
 
     def __init__(self, nom_complet, iD, email, address, telephone, passwd):
@@ -13,3 +10,6 @@ class Gestionnaire:
 
     def __str__(self):
         return self.nom_complet
+
+    def __hash__(self):
+        return hash(self.id)
