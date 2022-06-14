@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>icons8-coche-23.png</file>
+    <file>icons8-crayon-23.png</file>
+    <file>icons8-crayon-50.png</file>
+    <file>icons8-personne-homme-100.png</file>
+    <file>PFA Dev/icons8-personne-homme-40.png</file>
+  </qresource>
+</RCC>

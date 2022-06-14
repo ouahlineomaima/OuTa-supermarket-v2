@@ -1,6 +1,10 @@
-from Data import *
+import mysql.connector
 
-# test commit and push
+
+def get_connection():
+    db = mysql.connector.connect(host="localhost", user="root",
+                                 passwd="root", database="gestionstock")
+    return db.cursor(), db
 
 
 class Service:
@@ -13,8 +17,12 @@ class Service:
     def set_gestionnaire(self, gestionnaire):
         self.gestionnaire = gestionnaire
         cursor, db = get_connection()
-        cursor.execute(f"update service set idgestionnaire = {gestionnaire.id} where idservice = {self.iD}")
-        return cursor.rowcount()
+        cursor.execute(f"UPDATE `gestionstock`.`service` SET `idgestionnaire` = '{gestionnaire.id}' WHERE (`idservice` = '{self.iD}')")
+        db.commit()
+        return cursor.rowcount
 
     def __str__(self):
         return self.nom
+
+    def __hash__(self):
+        return hash(self.iD)
