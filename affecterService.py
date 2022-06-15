@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Data import *
 from PyQt5.QtWidgets import *
+import smtplib
 
 
 def loaddata(self):
@@ -18,6 +19,20 @@ def go_back():
     Ui_Form.widget.setFixedWidth(Ui_Form.previouswidth)
     Ui_Form.widget.setFixedHeight(Ui_Form.previousheight)
     Ui_Form.widget.setCurrentIndex(Ui_Form.previousindex)
+
+
+def send_email(msg, destination):
+    try:
+        sender_email = "OuTasupermarket@gmail.com"
+        password = "sfjtqhbqxcxhpqrt"
+        reciever_email = destination
+        server = smtplib.SMTP("smtp.gmail.com", 587, "localhost")
+        server.starttls()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, reciever_email, msg)
+        server.quit()
+    except BaseException as e:
+        print(e)
 
 
 def validate(self):
@@ -40,9 +55,54 @@ def validate(self):
 
                 # start the app
                 retval = msg.exec_()
+                print(1)
                 row = self.tableWidget.currentRow()
                 service = get_service(self.tableWidget.item(row, 0).text())
                 service.set_gestionnaire(gest)
+                try:
+                    print(0)
+                    rec_mail = gest.email
+                    print(rec_mail)
+                    if rec_mail != "":
+                        message = f"""Bonjour {gest.nom_complet}
+    l'administrateur vous a affecter au service de {service.nom}.
+    Veuillez consulter l'application le plus tot possible.
+    l'equipe OuTa supermarket vous te remercier pour votre collaboration.
+    Cordialement, """
+                        send_email(message, rec_mail)
+                    else:
+                        msg = QMessageBox()
+                        msg.setIcon(QMessageBox.Critical)
+
+                        # setting message for Message Box
+                        msg.setText(
+                            f"Désolé, nous ne pouvons pas envoyer un e-mail à l'e-amail de {gest.nom_complet}.Veuillez l'informer pour le saisir dans le volet profil.")
+
+                        # setting Message box window title
+                        msg.setWindowTitle("Opération échouée")
+
+                        # declaring buttons on Message Box
+                        msg.setStandardButtons(QMessageBox.Ok)
+
+                        # start the app
+                        retval = msg.exec_()
+                except BaseException:
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+
+                    # setting message for Message Box
+                    msg.setText(
+                        f"Désolé, nous ne pouvons pas envoyer un e-mail à l'e-mail de {gest.nom_complet}. Veuillez l'informer pour activer cette fonctionnalité dans son courriel électronique. ")
+
+                    # setting Message box window title
+                    msg.setWindowTitle("Opération échouée")
+
+                    # declaring buttons on Message Box
+                    msg.setStandardButtons(QMessageBox.Ok)
+
+                    # start the app
+                    retval = msg.exec_()
+
             else:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
@@ -64,22 +124,64 @@ def validate(self):
                 row = self.tableWidget.currentRow()
                 serviceid = self.tableWidget.item(row, 0).text()
                 if serviceid != "00":
-                    msg = QMessageBox()
-                    msg.setIcon(QMessageBox.Information)
-
-                    # setting message for Message Box
-                    msg.setText("Le service a été affecter avec succès à "+gest.nom_complet)
-
-                    # setting Message box window title
-                    msg.setWindowTitle("Opération réussie")
-
-                    # declaring buttons on Message Box
-                    msg.setStandardButtons(QMessageBox.Ok)
-
-                    # start the app
-                    retval = msg.exec_()
                     service = get_service(serviceid)
                     service.set_gestionnaire(gest)
+                    try:
+                        rec_mail = gest.email
+                        if rec_mail != "":
+                            message = f"""Bonjour {gest.nom_complet}
+    l'administrateur vous a affecter au service de {service.nom}.
+    Veuillez consulter l'application le plus tot possible.
+    l'équipe OuTa supermarket vous te remercier pour votre collaboration.
+    Cordialement, """
+                            send_email(message.encode('utf8'), rec_mail)
+                            msg = QMessageBox()
+                            msg.setIcon(QMessageBox.Information)
+
+                            # setting message for Message Box
+                            msg.setText("Le service a été affecter avec succès à " + gest.nom_complet+" une notification a été envoyer à son courrier.")
+
+                            # setting Message box window title
+                            msg.setWindowTitle("Opération réussie")
+
+                            # declaring buttons on Message Box
+                            msg.setStandardButtons(QMessageBox.Ok)
+
+                            # start the app
+                            retval = msg.exec_()
+
+                        else:
+                            msg = QMessageBox()
+                            msg.setIcon(QMessageBox.Critical)
+
+                            # setting message for Message Box
+                            msg.setText(
+                                f"le service a été affecté avec succés. Désolé, nous ne pouvons pas envoyer un e-mail au courrier de {gest.nom_complet}.Veuillez l'informer pour le saisir dans le volet profil.")
+
+                            # setting Message box window title
+                            msg.setWindowTitle("Opération échouée")
+
+                            # declaring buttons on Message Box
+                            msg.setStandardButtons(QMessageBox.Ok)
+
+                            # start the app
+                            retval = msg.exec_()
+                    except BaseException:
+                        msg = QMessageBox()
+                        msg.setIcon(QMessageBox.Critical)
+
+                        # setting message for Message Box
+                        msg.setText(
+                            f"le service a été affecté avec succès. Désolé, nous ne pouvons pas envoyer un e-mail à l'e-amail de {gest.nom_complet}. Veuillez l'informer pour activer cette fonctionnalité dans son courriel électronique. ")
+
+                        # setting Message box window title
+                        msg.setWindowTitle("Opération échouée")
+
+                        # declaring buttons on Message Box
+                        msg.setStandardButtons(QMessageBox.Ok)
+
+                        # start the app
+                        retval = msg.exec_()
                 else:  # we can't assign default service to other managers than admin
                     msg = QMessageBox()
                     msg.setIcon(QMessageBox.Critical)

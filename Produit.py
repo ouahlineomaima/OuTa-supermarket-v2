@@ -101,10 +101,11 @@ class Produit:
                 service = product.service
                 gest = service.gestionnaire
                 destination = gest.email
+                print(destination)
                 nom = product.nom
                 message = f"""le stock disponible du produit {nom} dans le service {service} est proche du minimum. 
 Veuillez ajouter ce produit."""
-                send_email(message, destination)
+                send_email(message.encode('utf8'), destination)
             cursor, db = get_connection()
             cursor.execute(f"UPDATE `gestionstock`.`produit` SET `quantite` = '{product.quantite}' WHERE (`idproduit` = '{product.iD}')")
             db.commit()

@@ -1,0 +1,3 @@
+Produit N°0: produit, service: Boissons, quantité: 2, prix unitaire: 100.0, prix total: 200.0 
+Produit N°1: Sidi Ali 1L, service: Boissons, quantité: 4, prix unitaire: 6.0, prix total: 24.0 
+Total global: 224.0

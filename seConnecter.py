@@ -12,6 +12,7 @@ class Ui_Form(object):
     gest_first = False
     admin_index = 0
     gest_index = 0
+    logoutindex = ""
 
     def __init__(self):
         self.Form = QtWidgets.QWidget()
@@ -159,7 +160,7 @@ class Ui_Form(object):
                             if not Ui_Form.admin_first and not Ui_Form.gest_first:
                                 Ui_Form.admin_first = True
                                 Ui_Form.admin_index = 1
-                                Ui_Form.gest_index = 2
+                                #Ui_Form.gest_index = 2
 
                                 defaultpass = self.id + self.nom
                                 if hashlib.md5(defaultpass.encode()).hexdigest() == self.gest.password:
@@ -180,11 +181,11 @@ class Ui_Form(object):
 
                                     widget.setFixedWidth(adminui.Form.frameGeometry().width())
                                     widget.setFixedHeight(adminui.Form.frameGeometry().height())
-                                    widget.setCurrentIndex(Ui_Form.admin_index)
+                                    widget.setCurrentIndex(widget.__len__()-1)
                                 else:
                                     widget.setFixedWidth(adminui.Form.frameGeometry().width())
                                     widget.setFixedHeight(adminui.Form.frameGeometry().height())
-                                    widget.setCurrentIndex(Ui_Form.admin_index)
+                                    widget.setCurrentIndex(widget.__len__()-1)
 
                             else:
                                 defaultpass = self.id + self.nom
@@ -206,14 +207,16 @@ class Ui_Form(object):
 
                                     widget.setFixedWidth(adminui.Form.frameGeometry().width())
                                     widget.setFixedHeight(adminui.Form.frameGeometry().height())
-                                    widget.setCurrentIndex(Ui_Form.admin_index)
+                                    widget.setCurrentIndex(widget.__len__()-1)
                                 else:
                                     widget.setFixedWidth(adminui.Form.frameGeometry().width())
                                     widget.setFixedHeight(adminui.Form.frameGeometry().height())
-                                    widget.setCurrentIndex(Ui_Form.admin_index)
+                                    widget.setCurrentIndex(widget.__len__()-1)
+                                    """
                                 widget.setFixedWidth(adminui.Form.frameGeometry().width())
                                 widget.setFixedHeight(adminui.Form.frameGeometry().height())
                                 widget.setCurrentIndex(Ui_Form.admin_index)
+                                """
 
                         else:  # normal gest part
                             self.idfield.setText("")
@@ -228,7 +231,7 @@ class Ui_Form(object):
                             if not Ui_Form.admin_first and not Ui_Form.gest_first:
                                 Ui_Form.gest_first = True
                                 Ui_Form.gest_index = 1
-                                Ui_Form.admin_index = 2
+                                #Ui_Form.admin_index = 2
 
                                 defaultpass = self.id + self.nom
                                 if hashlib.md5(defaultpass.encode()).hexdigest() == self.gest.password:
@@ -249,7 +252,12 @@ class Ui_Form(object):
 
                                     widget.setFixedWidth(gestui.Form.frameGeometry().width())
                                     widget.setFixedHeight(gestui.Form.frameGeometry().height())
-                                    widget.setCurrentIndex(Ui_Form.gest_index)
+                                    widget.setCurrentIndex(widget.__len__()-1)
+                                else:
+                                    widget.setFixedWidth(gestui.Form.frameGeometry().width())
+                                    widget.setFixedHeight(gestui.Form.frameGeometry().height())
+                                    widget.setCurrentIndex(widget.__len__()-1)
+
                             else:
                                 defaultpass = self.id + self.nom
                                 if hashlib.md5(defaultpass.encode()).hexdigest() == self.gest.password:
@@ -269,7 +277,11 @@ class Ui_Form(object):
                                     retval = msg.exec_()
                                     widget.setFixedWidth(gestui.Form.frameGeometry().width())
                                     widget.setFixedHeight(gestui.Form.frameGeometry().height())
-                                    widget.setCurrentIndex(Ui_Form.gest_index)
+                                    widget.setCurrentIndex(widget.__len__()-1)
+                                else:
+                                    widget.setFixedWidth(gestui.Form.frameGeometry().width())
+                                    widget.setFixedHeight(gestui.Form.frameGeometry().height())
+                                    widget.setCurrentIndex(widget.__len__()-1)
 
                     else:  # wrong passwd
                         msg = QMessageBox()
